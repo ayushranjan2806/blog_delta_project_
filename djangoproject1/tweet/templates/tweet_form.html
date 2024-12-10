@@ -1,0 +1,108 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Tweeter App
+{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        background-color: #f9f9f9;
+        font-family: 'Arial', sans-serif;
+        color: #333;
+        margin: 0;
+        padding: 0;
+    }
+
+    .form-container {
+        max-width: 600px;
+        margin: 50px auto;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        text-align: center;
+    }
+
+    .form-container h1 {
+        font-size: 24px;
+        color: #007bff;
+        margin-bottom: 10px;
+    }
+
+    .form-container h2 {
+        font-size: 16px;
+        color: #6c757d;
+        margin-bottom: 20px;
+    }
+
+    form {
+        margin-top: 15px;
+    }
+
+    form input[type="file"]:focus, 
+    form textarea:focus {
+        border-color: #007bff;
+        outline: none;
+        box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+    }
+
+    .btn-warning {
+        background-color: #ffc107;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+
+    .btn-warning:hover {
+        background-color: #e0a800;
+    }
+
+    a {
+        display: block;
+        margin-top: 20px;
+        color: #007bff;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    a:hover {
+        color: #0056b3;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 576px) {
+        .form-container {
+            padding: 15px;
+        }
+
+        .form-container h1 {
+            font-size: 20px;
+        }
+
+        .form-container h2 {
+            font-size: 14px;
+        }
+
+        .btn-warning {
+            font-size: 14px;
+            padding: 8px 15px;
+        }
+    }
+</style>
+
+<div class="form-container">
+    <h1>Share Your Thoughts!</h1>
+    <h2>Create or edit your tweet below:</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }} <!-- Render the entire form dynamically -->
+        <button class="btn btn-warning" type="submit">Submit</button>
+    </form>
+    <a href="{% url 'tweet_list' %}">Back to Tweets</a>
+</div>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Tweeter App
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Header Section -->
+    <div class="text-center mb-4">
+        <h1 class="fw-bold">Tweeter App</h1>
+        <p class="text-muted">Create, edit, and share your tweets easily.</p>
+        <a class="btn btn-primary btn-lg" href="{% url 'tweet_create' %}">
+            + Create Tweet
+        </a>
+    </div>
+
+    <!-- Tweets List -->
+    <div class="row g-3">
+        {% for tweet in tweets %}
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card shadow-sm">
+                <!-- Tweet Image -->
+                {% if tweet.image %}
+                <img src="{{ tweet.image.url }}" class="card-img-top" alt="Tweet Image" style="height: 150px; object-fit: cover;">
+                {% else %}
+                <img src="https://via.placeholder.com/400x150?text=No+Image" class="card-img-top" alt="Placeholder">
+                {% endif %}
+
+                <!-- Tweet Content -->
+                <div class="card-body">
+                    <h5 class="card-title">{{ tweet.user.username }}</h5>
+                    <p class="card-text">{{ tweet.text|truncatewords:10 }}</p>
+                </div>
+
+                <!-- Action Buttons or Placeholder -->
+                <div class="card-footer d-flex justify-content-between align-items-center">
+                    {% if user.is_authenticated and tweet.user == user %}
+                        <a href="{% url 'tweet_edit' tweet.id %}" class="btn btn-outline-primary btn-sm">Edit</a>
+                        <a href="{% url 'tweet_delete' tweet.id %}" class="btn btn-outline-danger btn-sm">Delete</a>
+                    {% else %}
+                        <span class="text-muted small">Posted on {{ tweet.created_at|date:"M d, Y" }}</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
